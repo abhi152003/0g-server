@@ -24,19 +24,18 @@ async function makeInferenceRequest(endpoint, headers, content, model) {
 
 // Function to perform inference with the provided message
 async function performInference(broker, message) {
-    const content = `Analyze the below given message and determine whether that message contains a trading signal or not and 
-if it does then extract the data and give it in a json format like this : 
-{
-  tokenSymbol : BTC,
-  signal: buy,
-  tp1: 1000,
-  tp2: 2000,
-  sl: 800
-}
-${message}
-
-Note : Your response should strictly contain only json object without markdown or anything else. Just the JSON object.
-`;
+    const content = `Extract trading signal data from the given message.  
+    Return only a valid JSON object with no additional text, markdown, or explanations. Do not include \`\`\`json or any other formatting.  
+    
+    {
+      "tokenSymbol": "BTC",
+      "signal": "buy",
+      "tp1": 1000,
+      "tp2": 2000,
+      "sl": 800
+    }
+    
+    ${message}`;
 
     // Get service metadata
     const { endpoint, model } = await broker.inference.getServiceMetadata(PROVIDER_ADDRESS);
