@@ -1,0 +1,24 @@
+{
+  "name": "0g-sdk-integration",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@0glabs/0g-serving-broker": "^2.0.0",
+    "@0glabs/0g-ts-sdk": "^0.2.7",
+    "@types/crypto-js": "^4.2.2",
+    "cors": "^2.8.5",
+    "crypto-js": "^4.2.0",
+    "dotenv": "^16.4.7",
+    "ethers": "^6.13.1",
+    "express": "^4.21.2",
+    "node-fetch": "^3.3.2",
+    "papaparse": "^5.5.2"
+  },
+  "type": "module"
+}
