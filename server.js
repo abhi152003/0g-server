@@ -127,6 +127,42 @@ initialize()
             }
         });
 
+        // New API endpoint for summarizing signals
+        app.post("/api/summarize", async (req, res) => {
+            const { averagePnl, signals } = req.body;
+
+            // Validate input
+            if (!averagePnl || !Array.isArray(signals)) {
+                return res.status(400).json({ error: "averagePnl and signals (as an array) are required" });
+            }
+
+            // Create the prompt for the inference service
+            const content = `Analyze the following trading signals and provide a summary including the average P&L and insights on the performance of the tokens.
+
+        Average P&L: ${averagePnl}%
+
+        Signals:
+        ${signals.map(signal => `- ${signal.token}: ${signal.pnl}`).join('\n')}
+
+        Provide the output in the given format:
+        {
+          averagePnl: 5.5,
+          insights: "Insights here"
+        }
+
+        Note : Your response should strictly contain only json object without markdown or anything else. Just the JSON object.
+
+        Your response should be a concise summary without any additional formatting.`;
+
+            try {
+                const summary = await performInference(broker, content);
+                res.json({ summary });
+            } catch (error) {
+                console.error("Summarization error:", error);
+                res.status(500).json({ error: "Summarization failed" });
+            }
+        });
+
         const PORT = process.env.PORT || 3001;
         app.listen(PORT, () => {
             console.log(`Server running on port ${PORT}`);
